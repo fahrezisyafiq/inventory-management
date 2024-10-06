@@ -60,7 +60,8 @@
                                                     <div class="form-group">
                                                         <label for="dateInput">Tanggal Masuk</label>
                                                         <input type="date" class="form-control" id="dateInput"
-                                                            name="dateInput" required placeholder="Pilih Tanggal" />
+                                                            name="dateInput" required placeholder="Pilih Tanggal"
+                                                            required />
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
@@ -103,6 +104,53 @@
                             </div>
                         </div>
 
+                        <!-- Modal Edit -->
+                        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editModalLabel">Edit Barang Masuk</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="editItemForm">
+                                            @csrf <!-- Token CSRF -->
+                                            @method('PUT') <!-- Metode PUT untuk update -->
+                                            <input type="hidden" id="editId" name="id">
+
+                                            <div class="mb-3">
+                                                <label for="editTanggalMasuk" class="form-label">Tanggal Masuk</label>
+                                                <input type="date" class="form-control" id="editTanggalMasuk"
+                                                    name="tanggal_masuk" required placeholder="Pilih Tanggal" />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="editKodeBarang" class="form-label">Kode Barang</label>
+                                                <input type="text" class="form-control" id="editKodeBarang" readonly
+                                                    name="kode_barang" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="editNamaBarang" class="form-label">Nama Barang</label>
+                                                <input type="text" class="form-control" id="editNamaBarang" readonly
+                                                    name="nama_barang" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="editJumlahMasuk">Jumlah Masuk</label>
+                                                <input type="number" class="form-control" id="editJumlahMasuk"
+                                                    name="jumlah_masuk" required>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" id="updateItem">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="table-responsive">
                             <table id="add-row" class="display table table-head-bg-primary table-hover text-center">
@@ -131,16 +179,24 @@
                                         <td>{{ $loop->iteration }}</td> <!-- Menampilkan nomor urut -->
                                         <td>{{ $item->tanggal_masuk }}</td>
                                         <td>{{ $item->kode_barang }}</td>
-                                        <td>{{ $item->nama_barang }}</td>
+                                        <td>{{ $item->dataBarang->nama_barang }}</td>
                                         <td>{{ $item->jumlah_masuk }}</td>
                                         <td>
                                             <div class="form-button-action">
-                                                <button type="button" data-bs-toggle="tooltip" title=""
-                                                    class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#editModal"
+                                                    title="" class="btn btn-link btn-primary btn-lg edit-btn"
+                                                    data-id="{{ $item->id }}"
+                                                    data-tanggal="{{ $item->tanggal_masuk }}"
+                                                    data-kode="{{ $item->kode_barang }}"
+                                                    data-nama="{{ $item->dataBarang->nama_barang }}"
+                                                    data-jumlah="{{ $item->jumlah_masuk }}"
+                                                    data-original-title="Edit Task">
                                                     <i class="fa fa-edit"></i>
                                                 </button>
                                                 <button type="button" data-bs-toggle="tooltip" title=""
-                                                    class="btn btn-link btn-danger" data-original-title="Remove">
+                                                    class="btn btn-link btn-danger delete-btn"
+                                                    data-id="{{ $item->id }}" data-nama="{{ $item->nama_barang }}"
+                                                    data-original-title="Remove">
                                                     <i class="fa fa-times"></i>
                                                 </button>
                                             </div>
@@ -182,6 +238,7 @@
         });
     </script>
 
+    {{-- Tambah Data --}}
     <script>
         $('#saveItem').click(function() {
             // Ambil data dari form
@@ -198,18 +255,126 @@
                 type: 'POST',
                 data: formData,
                 success: function(response) {
-                    alert(response.message); // Tampilkan pesan sukses
-                    location.reload(); // Refresh halaman setelah berhasil
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: response.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        location.reload(); // Reload halaman setelah berhasil
+                    });
                 },
                 error: function(xhr) {
-                    var errors = xhr.responseJSON.errors;
-                    if (errors) {
-                        var errorMessage = '';
-                        $.each(errors, function(key, value) {
-                            errorMessage += value + '\n';
-                        });
-                        alert(errorMessage); // Tampilkan pesan error jika ada
-                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: response.responseJSON.message || 'Terjadi kesalahan!',
+                    });
+                }
+            });
+        });
+    </script>
+
+    {{-- Edit Data --}}
+    <script>
+        $(document).on('click', '.edit-btn', function() {
+            // Ambil data dari tombol edit
+            var id = $(this).data('id');
+            var tanggal = $(this).data('tanggal');
+            var kode = $(this).data('kode');
+            var nama = $(this).data('nama');
+            var jumlah = $(this).data('jumlah');
+
+            // Isi field di modal edit
+            $('#editId').val(id);
+            $('#editTanggalMasuk').val(tanggal);
+            $('#editKodeBarang').val(kode);
+            $('#editNamaBarang').val(nama);
+            $('#editJumlahMasuk').val(jumlah);
+
+            // Tampilkan modal edit
+            $('#editModal').modal('show');
+        });
+
+        $('#updateItem').click(function() {
+            var form = $('#editItemForm');
+
+            $.ajax({
+                url: '/barang-masuk/' + $('#editId').val(), // Ganti dengan URL yang sesuai
+                type: 'PUT',
+                data: form.serialize(), // Mengambil data dari form
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: response.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        location.reload(); // Reload halaman setelah berhasil
+                    });
+                },
+                error: function(response) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: response.responseJSON.message || 'Terjadi kesalahan!',
+                    });
+                }
+            });
+        });
+    </script>
+
+    {{-- Hapus Data --}}
+    <script>
+        $(document).on('click', '.delete-btn', function(e) {
+            e.preventDefault();
+
+            var barangId = $(this).data('id'); // Ambil id barang dari tombol
+            var barangNama = $(this).data('nama_barang'); // Ambil nama barang untuk ditampilkan di SweetAlert
+
+            // Tampilkan SweetAlert konfirmasi
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Anda akan menghapus barang: " + barangNama,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika dikonfirmasi, kirimkan permintaan AJAX untuk menghapus barang
+                    $.ajax({
+                        url: '/barang-masuk/' + barangId, // URL untuk menghapus barang
+                        type: 'DELETE', // Method DELETE
+                        data: {
+                            _token: '{{ csrf_token() }}' // Sertakan token CSRF
+                        },
+                        success: function(response) {
+                            // Jika sukses, tampilkan SweetAlert sukses
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: 'Barang berhasil dihapus!',
+                                timer: 2000,
+                                showConfirmButton: false
+                            }).then(() => {
+                                // Reload halaman setelah SweetAlert selesai
+                                location.reload();
+                            });
+                        },
+                        error: function(xhr) {
+                            // Jika gagal, tampilkan SweetAlert error
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal!',
+                                text: 'Terjadi kesalahan saat menghapus barang.',
+                            });
+                        }
+                    });
                 }
             });
         });

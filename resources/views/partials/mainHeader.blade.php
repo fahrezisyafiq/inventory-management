@@ -26,19 +26,7 @@
             <h3 class="fw-bold mb-3">Inventory Management</h3>
 
             <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                        aria-expanded="false" aria-haspopup="true">
-                        <i class="fa fa-search"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-search animated fadeIn">
-                        <form class="navbar-left navbar-form nav-search">
-                            <div class="input-group">
-                                <input type="text" placeholder="Search ..." class="form-control" />
-                            </div>
-                        </form>
-                    </ul>
-                </li>
+
 
                 <li class="nav-item topbar-user dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
@@ -48,7 +36,9 @@
                         </div>
                         <span class="profile-username">
                             <span class="op-7">Hi,</span>
-                            <span class="fw-bold">Hizrian</span>
+                            @if (Auth::check())
+                                <span class="fw-bold">{{ Auth::user()->name }}</span>
+                            @endif
                         </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">

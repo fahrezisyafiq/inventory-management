@@ -50,7 +50,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('barang.keluar') }}">
+                                <a href="{{ route('barangKeluar.index') }}">
                                     <span class="sub-item">Barang Keluar</span>
                                 </a>
                             </li>
@@ -66,12 +66,12 @@
                     <div class="collapse" id="laporan">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="{{ route('laporan.masuk') }}">
+                                <a href="{{ route('laporanMasuk.index') }}">
                                     <span class="sub-item">laporan Masuk</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('laporan.keluar') }}">
+                                <a href="{{ route('laporanKeluar.index') }}">
                                     <span class="sub-item">laporan Keluar</span>
                                 </a>
                             </li>
@@ -88,8 +88,8 @@
 
             <!-- Log Out -->
             <ul class="nav">
-                <li class="nav-item">
-                    <a href="#">
+                <li class="nav-item" id="logoutButton">
+                    <a href="{{ route('logout') }}">
                         <i class="fas fa-sign-out-alt"></i>
                         <p>Log Out</p>
                     </a>
@@ -97,5 +97,53 @@
             </ul>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#logoutButton').on('click', function(event) {
+                event.preventDefault(); // Mencegah form default submit
+
+                // Konfirmasi logout
+                Swal.fire({
+                    title: 'Konfirmasi Logout',
+                    text: 'Apakah Anda yakin ingin logout?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Logout',
+                    cancelButtonText: 'Tidak'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Jika pengguna mengonfirmasi logout
+                        $.ajax({
+                            url: "{{ route('logout') }}",
+                            type: 'POST',
+                            data: {
+                                _token: "{{ csrf_token() }}", // Sertakan token CSRF
+                            },
+                            success: function(response) {
+                                Swal.fire({
+                                    title: 'Logout Berhasil',
+                                    text: response.message ||
+                                        'Anda telah berhasil logout.',
+                                    icon: 'success',
+                                }).then(() => {
+                                    window.location.href =
+                                        "{{ route('login') }}"; // Redirect ke halaman login
+                                });
+                            },
+                            error: function(xhr) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: xhr.responseJSON.message ||
+                                        'Terjadi kesalahan saat logout.',
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 
 </div>

@@ -16,13 +16,6 @@ class DataBarangController extends Controller
         return view('data_barang', compact('barangs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -50,22 +43,6 @@ class DataBarangController extends Controller
         return redirect()->back()->with('success', 'Barang berhasil ditambahkan');
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -112,6 +89,14 @@ class DataBarangController extends Controller
     public function destroy(string $id)
     {
         $barang = DataBarang::findOrFail($id);
+
+        if (!$barang) {
+            return response()->json(['message' => 'Barang tidak ditemukan.'], 404);
+        }
+    
+        // Hapus semua barang masuk yang terkait dengan kode_barang
+        $barang->kelolaBarang()->delete();
+    
 
         $barang->delete();
 

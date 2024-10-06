@@ -2,63 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KelolaBarang;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class LaporanKeluarController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource. 
      */
     public function index()
     {
-        return view('laporan_barang.laporan_keluar');
+        $laporanKeluar = KelolaBarang::with('dataBarang')
+            ->whereNotNull('jumlah_keluar')
+            ->get();
+
+        return view('laporan_barang.laporan_keluar', compact('laporanKeluar'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function filter(Request $request)
     {
-        //
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+
+        $laporanKeluar = KelolaBarang::with('dataBarang')
+            ->whereBetween('tanggal_keluar', [$startDate, $endDate])
+            ->get();
+
+        return response()->json($laporanKeluar);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function print(Request $request)
     {
-        //
+       // Validasi input tanggal
+       $request->validate([
+        'start_date' => 'required|date',
+        'end_date' => 'required|date',
+    ]);
+
+    $startDate = $request->start_date;
+    $endDate = $request->end_date;
+
+    // Query data sesuai rentang tanggal
+    $laporanKeluar = KelolaBarang::with('dataBarang')
+        ->whereBetween('tanggal_Keluar', [$startDate, $endDate])
+        ->get();
+
+    $pdf = PDF::loadView('laporan_barang.laporan_keluar_pdf', compact('laporanKeluar', 'startDate', 'endDate'));
+
+    return $pdf->stream('laporan_barang_keluar.pdf');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

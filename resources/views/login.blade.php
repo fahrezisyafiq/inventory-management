@@ -41,30 +41,63 @@
 
     <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
         <div class="col-md-4">
-            <div class="card ">
-                <div class="card-header text-center">
-                    <h4>Login</h4>
-                </div>
-                <div class="card-body">
-                    <form>
-                        <!-- Email input -->
-                        <div class="form-group mb-3">
-                            <label for="email">Email address</label>
-                            <input type="email" class="form-control" id="email" placeholder="Enter email">
+            <div class="card">
+                <div class="card-header m-4">
+                    <h2 class="text-center">Login</h2>
+                    <form id="loginForm">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
                         </div>
-
-                        <!-- Password input -->
-                        <div class="form-group mb-3">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Password">
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
                         </div>
-                        <!-- Submit button -->
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                        <button type="submit" class="btn btn-primary">Login</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#loginForm').on('submit', function(event) {
+                event.preventDefault(); // Mencegah refresh halaman
+
+                $.ajax({
+                    url: "{{ route('login') }}", // Ganti dengan route login Anda
+                    method: "POST",
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        // Tampilkan notifikasi sukses
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Login Berhasil',
+                            text: 'Anda berhasil masuk ke dalam sistem!',
+                        }).then(() => {
+                            // Redirect ke halaman dashboard atau halaman lain setelah berhasil login
+                            window.location.href = response
+                                .redirect; // Pastikan response memiliki field 'redirect'
+                        });
+                    },
+                    error: function(xhr) {
+                        // Tampilkan notifikasi error
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Login Gagal',
+                            text: xhr.responseJSON.message ||
+                                'Email atau Password salah!',
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 
 
 

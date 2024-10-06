@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataBarang;
+use App\Models\KelolaBarang;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -11,7 +15,12 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $totalStok = DataBarang::count();
+        $totalBarangMasuk = KelolaBarang::whereNotNull('jumlah_masuk')->count();
+        $totalBarangKeluar = KelolaBarang::whereNotNull('jumlah_keluar')->count();
+        $totalPegawai = User::count();
+        
+        return view('dashboard', compact('totalStok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalPegawai'));
     }
 
     /**

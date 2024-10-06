@@ -21,7 +21,7 @@
                             <div class="col-7 col-stats">
                                 <div class="numbers">
                                     <p class="card-category">Data Barang</p>
-                                    <h4 class="card-title">1,294</h4>
+                                    <h4 class="card-title">{{ $totalStok }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                             <div class="col-7 col-stats">
                                 <div class="numbers">
                                     <p class="card-category">Pegawai</p>
-                                    <h4 class="card-title">1303</h4>
+                                    <h4 class="card-title">{{ $totalPegawai }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                             <div class="col-7 col-stats">
                                 <div class="numbers">
                                     <p class="card-category">Laporan Masuk</p>
-                                    <h4 class="card-title">$ 1,345</h4>
+                                    <h4 class="card-title">{{ $totalBarangMasuk }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
                             <div class="col-7 col-stats">
                                 <div class="numbers">
                                     <p class="card-category">Laporan Keluar</p>
-                                    <h4 class="card-title">576</h4>
+                                    <h4 class="card-title">{{ $totalBarangKeluar }}</h4>
                                 </div>
                             </div>
                         </div>

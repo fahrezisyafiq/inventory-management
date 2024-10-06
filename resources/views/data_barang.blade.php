@@ -365,8 +365,6 @@
                                 errorMessage += value[0] +
                                     '<br>'; // Ambil pesan kesalahan
                             });
-
-
                             // Tampilkan SweetAlert untuk error
                             Swal.fire({
                                 icon: 'error',

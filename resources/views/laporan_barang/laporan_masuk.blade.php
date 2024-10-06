@@ -6,113 +6,50 @@
             <h3 class="fw-bold mb-3">Laporan Barang Masuk</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
-                    <a href="#">
-                        <i class="icon-home"></i>
-                    </a>
+                    <a href="#"><i class="icon-home"></i></a>
                 </li>
-                <li class="separator">
-                    <i class="icon-arrow-right"></i>
-                </li>
-                <li class="nav-item">
-                    <a href="#">Laporan Barang</a>
-                </li>
-                <li class="separator">
-                    <i class="icon-arrow-right"></i>
-                </li>
-                <li class="nav-item">
-                    <a href="#">Laporan Barang Masuk</a>
-                </li>
+                <li class="separator"><i class="icon-arrow-right"></i></li>
+                <li class="nav-item"><a href="#">Laporan Barang</a></li>
+                <li class="separator"><i class="icon-arrow-right"></i></li>
+                <li class="nav-item"><a href="#">Laporan Barang Masuk</a></li>
             </ul>
         </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center mb-3">
                             <h4 class="card-title">Laporan Barang Masuk</h4>
-                            <button class="btn btn-secondary ms-auto">
-                                <span class="btn-label">
-                                    <i class="fas fa-file-export"></i>
-                                </span>
-                                Print
-                            </button>
-                            {{-- <button class="btn btn-primary btn-round ms-auto" data-bs-toggle="modal"
-                                data-bs-target="#addRowModal">
-                                <i class="fa fa-plus"></i>
-                                Tambah Data
-                            </button> --}}
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <!-- Modal -->
-                        {{-- <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header border-0">
-                                        <h5 class="modal-title">
-                                            <span class="fw-mediumbold"> Barang</span>
-                                            <span class="fw-light"> Masuk </span>
-                                        </h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p class="small">
-                                            Tambahkan Stok Barang
-                                        </p>
-                                        <form>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="form-group">
-                                                        <label for="dateInput">Tanggal Masuk</label>
-                                                        <input type="date" class="form-control" id="dateInput"
-                                                            placeholder="Pilih Tanggal" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <div class="form-group">
-                                                        <label for="exampleFormControlSelect1">Kode Barang</label>
-                                                        <select class="form-select" id="exampleFormControlSelect1">
-                                                            <option>KB01</option>
-                                                            <option>KB02</option>
-                                                            <option>KB03</option>
-                                                            <option>KB04</option>
-                                                            <option>KB05</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <div class="form-group">
-                                                        <label for="namaBarang">Nama Barang</label>
-                                                        <input type="text" class="form-control form-control"
-                                                            id="namaBarang" placeholder="nama barang" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <div class="form-group">
-                                                        <label for="jumlahMasuk">Jumlah Barang Masuk</label>
-                                                        <input type="text" class="form-control form-control"
-                                                            id="jumlahMasuk" placeholder="jumlah masuk" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer border-0">
-                                        <button type="button" id="addRowButton" class="btn btn-primary">
-                                            Add
-                                        </button>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">
-                                            Close
-                                        </button>
-                                    </div>
+
+                        <!-- Form Filter -->
+                        <form id="filterForm" class="mb-4">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <input type="date" name="start_date" id="start_date" class="form-control"
+                                        placeholder="Tanggal Mulai" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="date" name="end_date" id="end_date" class="form-control"
+                                        placeholder="Tanggal Akhir" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-success">Filter</button>
+                                </div>
+                                <div class="col-md-2 ms-auto">
+                                    <button type="button" id="printLaporan" class="btn btn-secondary"><i
+                                            class="fas fa-print"></i> Print</button>
                                 </div>
                             </div>
-                        </div> --}}
+                        </form>
+                    </div>
 
+                    <!-- Tabel Laporan -->
+                    <div class="card-body">
                         <div class="table-responsive">
-                            <table id="add-row" class="display table table-head-bg-primary table-hover text-center">
+                            <table id="laporanTable" class="display table table-head-bg-primary table-hover text-center">
                                 <thead>
                                     <tr>
                                         <th style="width: 5%">#</th>
@@ -122,42 +59,20 @@
                                         <th>Jenis Barang</th>
                                         <th>Harga Barang</th>
                                         <th style="width: 5%">Jumlah Masuk</th>
-
                                     </tr>
                                 </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tanggal Masuk</th>
-                                        <th>Kode Barang</th>
-                                        <th>Nama Barang</th>
-                                        <th>Jenis Barang</th>
-                                        <th>Nama Barang</th>
-                                        <th>Harga Masuk</th>
-
-                                    </tr>
-                                </tfoot>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>17-02-2024</td>
-                                        <td>KB01</td>
-                                        <td>Makanan</td>
-                                        <td>Makanan</td>
-                                        <td>12.000</td>
-                                        <td>30</td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>17-02-2024</td>
-                                        <td>KB01</td>
-                                        <td>Makanan</td>
-                                        <td>Makanan</td>
-                                        <td>65.000</td>
-                                        <td>30</td>
-
-
+                                <tbody id="laporanTableBody">
+                                    @foreach ($laporanMasuk as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->tanggal_masuk }}</td>
+                                            <td>{{ $item->dataBarang->kode_barang }}</td>
+                                            <td>{{ $item->dataBarang->nama_barang }}</td>
+                                            <td>{{ $item->dataBarang->jenis_barang }}</td>
+                                            <td>{{ $item->dataBarang->harga_barang }}</td>
+                                            <td>{{ $item->jumlah_masuk }}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -167,3 +82,82 @@
         </div>
     </div>
 @endsection
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+        // Event listener untuk form filter
+        $('#filterForm').on('submit', function(event) {
+            event.preventDefault();
+            console.log('Form Filter Submitted'); // Log untuk mengecek
+
+            let startDate = $('#start_date').val();
+            let endDate = $('#end_date').val();
+
+            $.ajax({
+                url: "{{ route('laporanMasuk.filter') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    start_date: startDate,
+                    end_date: endDate
+                },
+                success: function(response) {
+                    $('#laporanTableBody').empty();
+
+                    let laporanHtml = '';
+                    response.forEach(function(item, index) {
+                        laporanHtml += `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${item.tanggal_masuk}</td>
+                                <td>${item.data_barang.kode_barang}</td>
+                                <td>${item.data_barang.nama_barang}</td>
+                                <td>${item.data_barang.jenis_barang}</td>
+                                <td>${item.data_barang.harga_barang}</td>
+                                <td>${item.jumlah_masuk}</td>
+                            </tr>
+                        `;
+                    });
+                    $('#laporanTableBody').html(laporanHtml);
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: xhr.responseJSON.message ||
+                            'Terjadi kesalahan saat memuat laporan!',
+                    });
+                }
+            });
+        });
+
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Event listener untuk tombol Print
+        $('#printLaporan').on('click', function() {
+            let startDate = $('#start_date').val();
+            let endDate = $('#end_date').val();
+
+            if (!startDate || !endDate) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Tanggal tidak lengkap!',
+                    text: 'Silakan pilih tanggal awal dan akhir sebelum mencetak.',
+                });
+                return;
+            }
+
+            // Redirect ke halaman PDF dengan parameter tanggal
+            // Membuka tab baru untuk pratinjau PDF
+            let url = `{{ route('laporanMasuk.print') }}?start_date=${startDate}&end_date=${endDate}`;
+            window.open(url, '_blank');
+        });
+    });
+</script>
