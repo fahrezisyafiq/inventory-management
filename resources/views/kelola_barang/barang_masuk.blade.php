@@ -3,7 +3,7 @@
 @section('content')
     <div class="page-inner">
         <div class="page-header">
-            <h3 class="fw-bold mb-3">Barang Masuk</h3>
+            {{-- <h3 class="fw-bold mb-3">Barang Masuk</h3> --}}
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
                     <a href="#">
@@ -150,61 +150,67 @@
                                 </div>
                             </div>
                         </div>
-
-
-                        <div class="table-responsive">
-                            <table id="add-row" class="display table table-head-bg-primary table-hover text-center">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 5%">#</th>
-                                        <th>Tanggal Masuk</th>
-                                        <th style="width: 10%">Kode Barang</th>
-                                        <th>Nama Barang</th>
-                                        <th>Jumlah Masuk</th>
-                                        <th style="width: 10%">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tanggal Masuk</th>
-                                        <th>Kode Barang</th>
-                                        <th>Nama Barang</th>
-                                        <th>Jumlah Masuk</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </tfoot>
-                                @foreach ($barangMasuk as $item)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td> <!-- Menampilkan nomor urut -->
-                                        <td>{{ $item->tanggal_masuk }}</td>
-                                        <td>{{ $item->kode_barang }}</td>
-                                        <td>{{ $item->dataBarang->nama_barang }}</td>
-                                        <td>{{ $item->jumlah_masuk }}</td>
-                                        <td>
-                                            <div class="form-button-action">
-                                                <button type="button" data-bs-toggle="modal" data-bs-target="#editModal"
-                                                    title="" class="btn btn-link btn-primary btn-lg edit-btn"
-                                                    data-id="{{ $item->id }}"
-                                                    data-tanggal="{{ $item->tanggal_masuk }}"
-                                                    data-kode="{{ $item->kode_barang }}"
-                                                    data-nama="{{ $item->dataBarang->nama_barang }}"
-                                                    data-jumlah="{{ $item->jumlah_masuk }}"
-                                                    data-original-title="Edit Task">
-                                                    <i class="fa fa-edit"></i>
-                                                </button>
-                                                <button type="button" data-bs-toggle="tooltip" title=""
-                                                    class="btn btn-link btn-danger delete-btn"
-                                                    data-id="{{ $item->id }}" data-nama="{{ $item->nama_barang }}"
-                                                    data-original-title="Remove">
-                                                    <i class="fa fa-times"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </table>
-                        </div>
+                        @if ($barangMasuk->isEmpty())
+                            <div class="alert alert-warning text-center" role="alert">
+                                Tidak ada Data Barang Masuk.
+                            </div>
+                        @else
+                            <div class="table-responsive">
+                                <table id="add-row" class="display table table-head-bg-primary table-hover text-center">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 5%">#</th>
+                                            <th>Tanggal Masuk</th>
+                                            <th style="width: 10%">Kode Barang</th>
+                                            <th>Nama Barang</th>
+                                            <th>Jumlah Masuk</th>
+                                            <th style="width: 10%">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Tanggal Masuk</th>
+                                            <th>Kode Barang</th>
+                                            <th>Nama Barang</th>
+                                            <th>Jumlah Masuk</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </tfoot>
+                                    @foreach ($barangMasuk as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td> <!-- Menampilkan nomor urut -->
+                                            <td>{{ $item->tanggal_masuk }}</td>
+                                            <td>{{ $item->kode_barang }}</td>
+                                            <td>{{ $item->dataBarang->nama_barang }}</td>
+                                            <td>{{ $item->jumlah_masuk }}</td>
+                                            <td>
+                                                <div class="form-button-action">
+                                                    <button type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#editModal" title=""
+                                                        class="btn btn-link btn-primary btn-lg edit-btn"
+                                                        data-id="{{ $item->id }}"
+                                                        data-tanggal="{{ $item->tanggal_masuk }}"
+                                                        data-kode="{{ $item->kode_barang }}"
+                                                        data-nama="{{ $item->dataBarang->nama_barang }}"
+                                                        data-jumlah="{{ $item->jumlah_masuk }}"
+                                                        data-original-title="Edit Task">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" data-bs-toggle="tooltip" title=""
+                                                        class="btn btn-link btn-danger delete-btn"
+                                                        data-id="{{ $item->id }}"
+                                                        data-nama="{{ $item->nama_barang }}"
+                                                        data-original-title="Remove">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

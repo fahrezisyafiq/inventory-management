@@ -3,7 +3,7 @@
 @section('content')
     <div class="page-inner">
         <div class="page-header">
-            <h3 class="fw-bold mb-3">Data Barang</h3>
+            {{-- <h3 class="fw-bold mb-3">Data Barang</h3> --}}
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
                     <a href="#">
@@ -155,67 +155,73 @@
                             </div>
                         </div>
 
-                        <div class="table-responsive">
-                            <table id="add-row" class="display table table-head-bg-primary table-hover text-center">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 5%">#</th>
-                                        <th style="width: 10%">Kode Barang</th>
-                                        <th>Nama Barang</th>
-                                        <th>Jenis Barang</th>
-                                        <th>Harga</th>
-                                        <th>Stok</th>
-                                        <th style="width: 10%">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Kode Barang</th>
-                                        <th>Nama Barang</th>
-                                        <th>Jenis Barang</th>
-                                        <th>Harga</th>
-                                        <th>Stok</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </tfoot>
-                                <tbody>
-                                    @foreach ($barangs as $barang)
+                        @if ($barangs->isEmpty())
+                            <div class="alert alert-warning text-center" role="alert">
+                                Tidak ada Data Barang.
+                            </div>
+                        @else
+                            <div class="table-responsive">
+                                <table id="add-row" class="display table table-head-bg-primary table-hover text-center">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $barang->id }}</td>
-                                            <td>{{ $barang->kode_barang }}</td>
-                                            <td>{{ $barang->nama_barang }}</td>
-                                            <td>{{ $barang->jenis_barang }}</td>
-                                            <td>{{ $barang->harga_barang }}</td>
-                                            <td>{{ $barang->stok_barang ?? 0 }}</td>
-                                            <td>
-                                                <div class="form-button-action">
-                                                    <button type="button" data-bs-toggle="modal"
-                                                        data-bs-target="#editModal" title=""
-                                                        class="btn btn-link btn-primary btn-lg edit-btn"
-                                                        data-id="{{ $barang->id }}"
-                                                        data-kode="{{ $barang->kode_barang }}"
-                                                        data-nama="{{ $barang->nama_barang }}"
-                                                        data-jenis="{{ $barang->jenis_barang }}"
-                                                        data-harga="{{ $barang->harga_barang }}"
-                                                        data-stok="{{ $barang->stok_barang ?? 0 }}"
-                                                        data-original-title="Edit Task">
-                                                        <i class="fa fa-edit"></i>
-                                                    </button>
-                                                    <button type="button" data-bs-toggle="tooltip" title=""
-                                                        class="btn btn-link btn-danger delete-btn"
-                                                        data-id="{{ $barang->id }}"
-                                                        data-nama="{{ $barang->nama_barang }}"
-                                                        data-original-title="Remove">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
+                                            <th style="width: 5%">#</th>
+                                            <th style="width: 10%">Kode Barang</th>
+                                            <th>Nama Barang</th>
+                                            <th>Jenis Barang</th>
+                                            <th>Harga</th>
+                                            <th>Stok</th>
+                                            <th style="width: 10%">Aksi</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Kode Barang</th>
+                                            <th>Nama Barang</th>
+                                            <th>Jenis Barang</th>
+                                            <th>Harga</th>
+                                            <th>Stok</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        @foreach ($barangs as $barang)
+                                            <tr>
+                                                <td>{{ $barang->id }}</td>
+                                                <td>{{ $barang->kode_barang }}</td>
+                                                <td>{{ $barang->nama_barang }}</td>
+                                                <td>{{ $barang->jenis_barang }}</td>
+                                                <td>{{ $barang->harga_barang }}</td>
+                                                <td>{{ $barang->stok_barang ?? 0 }}</td>
+                                                <td>
+                                                    <div class="form-button-action">
+                                                        <button type="button" data-bs-toggle="modal"
+                                                            data-bs-target="#editModal" title=""
+                                                            class="btn btn-link btn-primary btn-lg edit-btn"
+                                                            data-id="{{ $barang->id }}"
+                                                            data-kode="{{ $barang->kode_barang }}"
+                                                            data-nama="{{ $barang->nama_barang }}"
+                                                            data-jenis="{{ $barang->jenis_barang }}"
+                                                            data-harga="{{ $barang->harga_barang }}"
+                                                            data-stok="{{ $barang->stok_barang ?? 0 }}"
+                                                            data-original-title="Edit Task">
+                                                            <i class="fa fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" data-bs-toggle="tooltip" title=""
+                                                            class="btn btn-link btn-danger delete-btn"
+                                                            data-id="{{ $barang->id }}"
+                                                            data-nama="{{ $barang->nama_barang }}"
+                                                            data-original-title="Remove">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -281,7 +287,7 @@
             e.preventDefault();
 
             var barangId = $(this).data('id'); // Ambil id barang dari tombol
-            var barangNama = $(this).data('nama_barang'); // Ambil nama barang untuk ditampilkan di SweetAlert
+            var barangNama = $(this).data('nama'); // Ambil nama barang untuk ditampilkan di SweetAlert
 
             // Tampilkan SweetAlert konfirmasi
             Swal.fire({
@@ -333,56 +339,64 @@
     <script>
         $(document).ready(function() {
             $('#saveItem').click(function() {
+                var form = $('#addItemForm');
                 var modal = $('#exampleModal');
 
-                // Sembunyikan modal
-                modal.modal('hide');
+                // Reset error states
+                form.find('.form-control').removeClass('is-invalid');
+                form.find('.invalid-feedback').remove();
 
                 // Lakukan AJAX
                 $.ajax({
                     url: '{{ route('tambah.barang') }}',
                     type: 'POST',
-                    data: $('#addItemForm').serialize(),
+                    data: form.serialize(),
                     success: function(response) {
+                        // Jika berhasil
                         Swal.fire({
                             icon: 'success',
                             title: 'Berhasil!',
-                            text: 'Barang berhasil ditambahkan!',
+                            text: response.message,
                             confirmButtonText: 'OK'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                $('#addItemForm')[0].reset(); // Mereset form
-                                location.reload(); // Reload halaman setelah berhasil
+                                $('#addItemForm')[0]
+                                    .reset(); // Reset form setelah berhasil
+                                location.reload(); // Reload halaman setelah sukses
                             }
                         });
                     },
-                    error: function(response) {
-                        // Menampilkan pesan kesalahan jika validasi gagal
-                        if (response.status === 422) {
-                            var errors = response.responseJSON.errors;
-                            var errorMessage = '';
+                    error: function(xhr) {
+                        // Jika terjadi kesalahan validasi (kode status 422)
+                        if (xhr.status === 422) {
+                            var errors = xhr.responseJSON.errors;
+
+                            // Iterasi setiap error dan tampilkan pesan kesalahan
                             $.each(errors, function(key, value) {
-                                errorMessage += value[0] +
-                                    '<br>'; // Ambil pesan kesalahan
+                                var input = $('[name="' + key +
+                                    '"]'
+                                    ); // Ambil elemen input sesuai dengan nama field
+
+                                input.addClass(
+                                    'is-invalid'
+                                    ); // Tambahkan kelas 'is-invalid' pada input
+                                input.after('<div class="invalid-feedback">' + value[
+                                    0] +
+                                '</div>'); // Tampilkan pesan kesalahan di bawah input
                             });
-                            // Tampilkan SweetAlert untuk error
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                html: errorMessage, // Menggunakan html untuk menampilkan banyak pesan
-                                confirmButtonText: 'OK'
-                            }).then(() => {
-                                // Tidak melakukan reload, hanya menyembunyikan alert
-                                modal.modal(
-                                    'show'); // Tampilkan kembali modal jika ingin
-                            });
+
+                            // Tampilkan modal kembali jika ada error
+                            modal.modal('show');
                         } else {
+                            // Jika ada error selain validasi
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: response.responseJSON.message ||
-                                    'Terjadi kesalahan!',
+                                text: 'Terjadi kesalahan!',
                             });
+
+                            // Tampilkan modal kembali jika ada error selain validasi
+                            modal.modal('show');
                         }
                     }
                 });

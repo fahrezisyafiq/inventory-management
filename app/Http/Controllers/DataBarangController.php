@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DataBarang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DataBarangController extends Controller
 {
@@ -21,27 +22,37 @@ class DataBarangController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-         // Validasi data input
-         $request->validate([
-            'kodeBarang' => 'required|unique:data_barangs,kode_barang',
-            'namaBarang' => 'required|unique:data_barangs,nama_barang',
-            'jenisBarang' => 'required|string|max:255',
-            'hargaBarang' => 'required|numeric|min:0',
-        ]);
+{
+    // Validasi data input
+    $validator = Validator::make($request->all(), [
+        'kodeBarang' => 'required|unique:data_barangs,kode_barang',
+        'namaBarang' => 'required|unique:data_barangs,nama_barang',
+        'jenisBarang' => 'required|string|max:255',
+        'hargaBarang' => 'required|numeric|min:0',
+    ]);
 
-        // Simpan data ke database
-        DataBarang::create([
-            'kode_barang' => $request->kodeBarang,
-            'nama_barang' => $request->namaBarang,
-            'jenis_barang' => $request->jenisBarang,
-            'harga_barang' => $request->hargaBarang,
-            'stok_barang' => $request->stokBarang ?? 0, 
-        ]);
-
-        // Redirect atau response JSON untuk AJAX
-        return redirect()->back()->with('success', 'Barang berhasil ditambahkan');
+    // Jika validasi gagal, kembalikan respons JSON dengan status kode 422 (Unprocessable Entity)
+    if ($validator->fails()) {
+        return response()->json([
+            'errors' => $validator->errors()
+        ], 422);
     }
+
+    // Simpan data ke database
+    DataBarang::create([
+        'kode_barang' => $request->kodeBarang,
+        'nama_barang' => $request->namaBarang,
+        'jenis_barang' => $request->jenisBarang,
+        'harga_barang' => $request->hargaBarang,
+        'stok_barang' => $request->stokBarang ?? 0,  // Nilai default stok_barang adalah 0 jika kosong
+    ]);
+
+    // Kembalikan respons sukses dalam bentuk JSON
+    return response()->json([
+        'message' => 'Barang berhasil ditambahkan!'
+    ], 200);
+}
+
 
 
     /**
@@ -53,7 +64,7 @@ class DataBarangController extends Controller
     $request->validate([
         'kode_barang' => 'required|unique:data_barangs,kode_barang,' . $id, // Tambahkan pengecualian untuk ID yang sama
         'nama_barang' => 'required|unique:data_barangs,nama_barang,' . $id, // Tambahkan pengecualian untuk ID yang sama
-        'jenis_barang' => 'required',
+        'jenis_barang' => 'required|string|max:255',
         'harga_barang' => 'required|numeric',
         'stok_barang' => 'required|numeric',
     ]);
@@ -66,16 +77,12 @@ class DataBarangController extends Controller
         return response()->json(['message' => 'Barang tidak ditemukan.'], 404);
     }
 
-    // Perbarui hanya field yang diubah
-    $barang->kode_barang = $request->input('kode_barang', $barang->kode_barang);
-    $barang->nama_barang = $request->input('nama_barang', $barang->nama_barang);
-    $barang->jenis_barang = $request->input('jenis_barang', $barang->jenis_barang);
-    $barang->harga_barang = $request->input('harga_barang', $barang->harga_barang);
-    $barang->stok_barang = $request->input('stok_barang', $barang->stok_barang);
+    // Perbarui data barang dengan input baru
+    $barang->fill($request->only(['kode_barang', 'nama_barang', 'jenis_barang', 'harga_barang', 'stok_barang']));
 
     // Simpan perubahan
     if ($barang->save()) {
-        return response()->json(['message' => 'Barang berhasil diperbarui.']);
+        return response()->json(['message' => 'Barang berhasil diperbarui.'], 200);
     } else {
         return response()->json(['message' => 'Terjadi kesalahan saat memperbarui barang.'], 500);
     }

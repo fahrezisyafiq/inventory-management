@@ -3,9 +3,9 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Forms - Kaiadmin Bootstrap 5 Admin Dashboard</title>
+    <title>Login Inventory Management</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
-    <link rel="icon" href="../assets/img/kaiadmin/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../assets/img/logo-toko37.png" type="image/x-icon" />
 
     <!-- Fonts and icons -->
     <script src="../assets/js/plugin/webfont/webfont.min.js"></script>
@@ -39,11 +39,16 @@
 
 <body>
 
-    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-        <div class="col-md-4">
+    <div class="container d-flex justify-content-center align-items-center dark" style="min-height: 100vh;">
+        <div class="col-md-4 col-10">
             <div class="card">
-                <div class="card-header m-4">
+                <div class="card-header m-4 text-center">
+                    <img src="assets/img/logo-toko37.png" alt="Login Image" class="img-fluid mb-3"
+                        style="max-width: 100px; height: auto;" />
                     <h2 class="text-center">Login</h2>
+
+                </div>
+                <div class="card-body">
                     <form id="loginForm">
                         @csrf
                         <div class="mb-3">
@@ -54,7 +59,7 @@
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" name="password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
                     </form>
                 </div>
             </div>

@@ -3,7 +3,7 @@
 @section('content')
     <div class="page-inner">
         <div class="page-header">
-            <h3 class="fw-bold mb-3">Laporan Barang Masuk</h3>
+            {{-- <h3 class="fw-bold mb-3">Laporan Barang Masuk</h3> --}}
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
                     <a href="#"><i class="icon-home"></i></a>
@@ -48,34 +48,42 @@
 
                     <!-- Tabel Laporan -->
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="laporanTable" class="display table table-head-bg-primary table-hover text-center">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 5%">#</th>
-                                        <th style="width: 15%">Tanggal Masuk</th>
-                                        <th style="width: 10%">Kode Barang</th>
-                                        <th>Nama Barang</th>
-                                        <th>Jenis Barang</th>
-                                        <th>Harga Barang</th>
-                                        <th style="width: 5%">Jumlah Masuk</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="laporanTableBody">
-                                    @foreach ($laporanMasuk as $item)
+
+                        @if ($laporanMasuk->isEmpty())
+                            <div class="alert alert-warning text-center" role="alert">
+                                Tidak ada Data Laporan Masuk.
+                            </div>
+                        @else
+                            <div class="table-responsive">
+                                <table id="laporanTable"
+                                    class="display table table-head-bg-primary table-hover text-center">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->tanggal_masuk }}</td>
-                                            <td>{{ $item->dataBarang->kode_barang }}</td>
-                                            <td>{{ $item->dataBarang->nama_barang }}</td>
-                                            <td>{{ $item->dataBarang->jenis_barang }}</td>
-                                            <td>{{ $item->dataBarang->harga_barang }}</td>
-                                            <td>{{ $item->jumlah_masuk }}</td>
+                                            <th style="width: 5%">#</th>
+                                            <th style="width: 15%">Tanggal Masuk</th>
+                                            <th style="width: 10%">Kode Barang</th>
+                                            <th>Nama Barang</th>
+                                            <th>Jenis Barang</th>
+                                            <th>Harga Barang</th>
+                                            <th style="width: 5%">Jumlah Masuk</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody id="laporanTableBody">
+                                        @foreach ($laporanMasuk as $item)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $item->tanggal_masuk }}</td>
+                                                <td>{{ $item->dataBarang->kode_barang }}</td>
+                                                <td>{{ $item->dataBarang->nama_barang }}</td>
+                                                <td>{{ $item->dataBarang->jenis_barang }}</td>
+                                                <td>{{ $item->dataBarang->harga_barang }}</td>
+                                                <td>{{ $item->jumlah_masuk }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

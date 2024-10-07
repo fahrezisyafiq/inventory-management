@@ -3,8 +3,10 @@
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
             <a href="/" class="logo">
-                <img src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20" />
+                <img src="assets/img/logo-toko37.png" alt="navbar brand" class="navbar-brand" height="50" />
+                <span class="ms-3 fw-bold text-white">Toko Telu Pitu</span>
             </a>
+
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
                     <i class="gg-menu-right"></i>
@@ -36,7 +38,7 @@
                     </a>
                 </li>
                 <li
-                    class="nav-item {{ Route::currentRouteName() == 'barang.masuk' || Route::currentRouteName() == 'barang.keluar' ? 'active' : '' }}">
+                    class="nav-item {{ Route::currentRouteName() == 'barangMasuk.index' || Route::currentRouteName() == 'barangKeluar.index' ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#kelolaBarang">
                         <i class="fas fa-retweet"></i>
                         <p>Kelola Barang</p>
@@ -57,7 +59,8 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li
+                    class="nav-item {{ Route::currentRouteName() == 'laporanMasuk.index' || Route::currentRouteName() == 'laporanKeluar.index' ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#laporan">
                         <i class="fas fa-pen-square"></i>
                         <p>Laporan Barang</p>
@@ -78,7 +81,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ Route::currentRouteName() == 'data.pegawai' ? 'active' : '' }}">
                     <a href="{{ route('data.pegawai') }}">
                         <i class="fas fa-users"></i>
                         <p>Data Pegawai</p>
@@ -97,6 +100,8 @@
             </ul>
         </div>
     </div>
+
+
 
     <script>
         $(document).ready(function() {
