@@ -26,12 +26,15 @@
                         <!-- Form Filter -->
                         <form id="filterForm" class="mb-4">
                             @csrf
-                            <div class="row">
+                            <div class="row align-items-end">
                                 <div class="col-md-3">
+                                    <label for="start_date">Tanggal Awal:</label>
                                     <input type="date" name="start_date" id="start_date" class="form-control"
                                         placeholder="Tanggal Mulai" required>
                                 </div>
+
                                 <div class="col-md-3">
+                                    <label for="start_date">Tanggal Akhir:</label>
                                     <input type="date" name="end_date" id="end_date" class="form-control"
                                         placeholder="Tanggal Akhir" required>
                                 </div>

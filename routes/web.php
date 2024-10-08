@@ -10,10 +10,6 @@ use App\Http\Controllers\LaporanKeluarController;
 use App\Http\Controllers\LaporanMasukController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
@@ -54,13 +50,5 @@ Route::group(['middleware' => 'auth'], function() {
 
 
 
-
-// Route::get('/laporan-masuk/cetak', [LaporanMasukController::class, 'cetakLaporan'])->name('laporanMasuk.cetakLaporan');
-
-// Route::get('barang_masuk', [BarangMasukController::class, 'index'])->name('barang.masuk');
-// Route::get('barang_keluar', [BarangKeluarController::class, 'index'])->name('barang.keluar');
-// Route::get('laporan_masuk', [LaporanMasukController::class, 'index'])->name('laporan.masuk');
-// Route::get('laporan_keluar', [LaporanKeluarController::class, 'index'])->name('laporan.keluar');
-// Route::get('data_pegawai', [DataPegawaiController::class, 'index'])->name('data.pegawai');
 
 
