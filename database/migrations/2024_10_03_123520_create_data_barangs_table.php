@@ -18,6 +18,13 @@ return new class extends Migration
             $table->string('jenis_barang');
             $table->decimal('harga_barang', 10, 2); // Menggunakan decimal untuk harga
             $table->integer('stok_barang')->default(0); // Atur stok default ke 0
+            $table->integer('lead_time')->nullable(); // dalam hari
+            $table->integer('pemakaian_harian')->nullable();
+            $table->integer('biaya_pemesanan')->nullable();
+            $table->integer('biaya_penyimpanan')->nullable();
+            $table->integer('permintaan_tahunan')->nullable();
+            $table->integer('rop')->nullable();
+            $table->integer('eoq')->nullable();
             $table->timestamps();
         });
     }

@@ -28,7 +28,7 @@ class BarangKeluarController extends Controller
         $barang = DataBarang::where('kode_barang', $kode_barang)->first();
 
         if ($barang) {
-            return response()->json(['nama_barang' => $barang->nama_barang]);
+            return response()->json(['nama_barang' => $barang->jenis_barang]);
         }
 
         return response()->json(['error' => 'Barang tidak ditemukan'], 404);
@@ -49,6 +49,19 @@ class BarangKeluarController extends Controller
 
         if ($barang->stok_barang < $request->jumlah_keluar) {
             return response()->json(['message' => 'Stok tidak cukup.'], 400);
+        }
+
+        $tanggalMasuk = KelolaBarang::where('kode_barang', $request->kode_barang)
+                        ->whereNotNull('tanggal_masuk')
+                        ->orderBy('tanggal_masuk', 'desc')
+                        ->value('tanggal_masuk');
+
+        if (!$tanggalMasuk) {
+            return response()->json(['message' => 'Tanggal masuk barang tidak ditemukan.'], 400);
+        }
+
+        if ($request->tanggal_keluar < $tanggalMasuk){
+            return response()->json(['message' => 'Tanggal keluar tidak boleh sebelum tanggal masuk.'], 400);
         }
 
         // Simpan transaksi barang keluar

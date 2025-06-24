@@ -19,8 +19,13 @@ class DashboardController extends Controller
         $totalBarangMasuk = KelolaBarang::whereNotNull('jumlah_masuk')->count();
         $totalBarangKeluar = KelolaBarang::whereNotNull('jumlah_keluar')->count();
         $totalPegawai = User::count();
+
+        // Ambil barang yang stoknya di bawah atau sama dengan ROP
+        $barangs = DataBarang::whereNotNull('rop')
+                    ->whereColumn('stok_barang', '<=', 'rop')
+                    ->get();
         
-        return view('dashboard', compact('totalStok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalPegawai'));
+        return view('dashboard', compact('totalStok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalPegawai', 'barangs'));
     }
 
     /**

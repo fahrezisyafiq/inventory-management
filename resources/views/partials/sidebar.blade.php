@@ -37,6 +37,12 @@
                         <p>Data Barang</p>
                     </a>
                 </li>
+                <li class="nav-item {{ Route::currentRouteName() == 'hitung.eoqrop' ? 'active' : '' }}">
+                    <a href="{{ route('hitung.eoqrop') }}">
+                        <i class="fas fa-boxes"></i>
+                        <p>Hitung EOQ & ROP</p>
+                    </a>
+                </li>
                 <li
                     class="nav-item {{ Route::currentRouteName() == 'barangMasuk.index' || Route::currentRouteName() == 'barangKeluar.index' ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#kelolaBarang">

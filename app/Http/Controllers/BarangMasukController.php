@@ -9,19 +9,17 @@ use Illuminate\Support\Facades\DB;
 
 class BarangMasukController extends Controller
 {
-    public function getNamaBarang($kode_barang)
-    {
-        // Cari barang berdasarkan kode_barang
+
+    public function getNamaBarang($kode_barang){
         $barang = DataBarang::where('kode_barang', $kode_barang)->first();
 
-        // Jika barang ditemukan, kembalikan response JSON dengan nama barang
         if ($barang) {
-            return response()->json(['nama_barang' => $barang->nama_barang]);
+            return response()->json(['nama_barang' => $barang->jenis_barang]);
         }
 
-        // Jika barang tidak ditemukan, kembalikan error
         return response()->json(['error' => 'Barang tidak ditemukan'], 404);
     }
+    
 
     /**
      * Display a listing of the resource.

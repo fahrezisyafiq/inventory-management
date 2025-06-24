@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Validator;
 
 class DataBarangController extends Controller
 {
+
+    public function getRoqEoq(Request $request){
+
+        $barang = DataBarang::where('kode_barang', $request->kode_barang)->first();
+
+
+    }
     /**
      * Display a listing of the resource.
      */

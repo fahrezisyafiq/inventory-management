@@ -73,14 +73,15 @@
                                                             <option value="">-- Pilih Kode Barang --</option>
                                                             @foreach ($dataBarangs as $barang)
                                                                 <option value="{{ $barang->kode_barang }}">
-                                                                    {{ $barang->kode_barang }}</option>
+                                                                    {{ $barang->kode_barang }} - {{ $barang->nama_barang }}
+                                                                </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <div class="form-group">
-                                                        <label for="nama_barang">Nama Barang</label>
+                                                        <label for="nama_barang">Jenis Barang</label>
                                                         <input type="text" class="form-control" id="nama_barang"
                                                             name="nama_barang" readonly>
                                                     </div>
@@ -277,7 +278,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: response.responseJSON.message || 'Terjadi kesalahan!',
+                        text: xhr.responseJSON?.message || 'Terjadi kesalahan!',
                     });
                 }
             });

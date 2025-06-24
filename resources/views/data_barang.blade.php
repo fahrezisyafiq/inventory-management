@@ -173,17 +173,6 @@
                                             <th style="width: 10%">Aksi</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Kode Barang</th>
-                                            <th>Nama Barang</th>
-                                            <th>Jenis Barang</th>
-                                            <th>Harga</th>
-                                            <th>Stok</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
                                         @foreach ($barangs as $barang)
                                             <tr>
@@ -375,14 +364,15 @@
                             $.each(errors, function(key, value) {
                                 var input = $('[name="' + key +
                                     '"]'
-                                    ); // Ambil elemen input sesuai dengan nama field
+                                ); // Ambil elemen input sesuai dengan nama field
 
                                 input.addClass(
                                     'is-invalid'
-                                    ); // Tambahkan kelas 'is-invalid' pada input
+                                ); // Tambahkan kelas 'is-invalid' pada input
                                 input.after('<div class="invalid-feedback">' + value[
-                                    0] +
-                                '</div>'); // Tampilkan pesan kesalahan di bawah input
+                                        0] +
+                                    '</div>'
+                                ); // Tampilkan pesan kesalahan di bawah input
                             });
 
                             // Tampilkan modal kembali jika ada error

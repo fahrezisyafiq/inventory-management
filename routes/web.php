@@ -6,6 +6,7 @@ use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataBarangController;
 use App\Http\Controllers\DataPegawaiController;
+use App\Http\Controllers\HitungEoqRopController;
 use App\Http\Controllers\LaporanKeluarController;
 use App\Http\Controllers\LaporanMasukController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,11 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('tambah_barang', [DataBarangController::class, 'store'])->name('tambah.barang');
   Route::put('/data-barang/{id}', [DataBarangController::class, 'update'])->name('barang.update');
   Route::delete('data-barang/{id}', [DataBarangController::class, 'destroy'])->name('barang.destroy');
+
+  Route::get('hitung-eoq-rop', [HitungEoqRopController::class, 'index'])->name('hitung.eoqrop');
+  Route::get('/get-nama-barang/{kode_barang}', [HitungEoqRopController::class, 'getNamaBarang']);
+  Route::post('/count', [HitungEoqRopController::class, 'hitung'])->name('count');
+  Route::delete('/hapus-eoqrop/{kode_barang}', [HitungEoqRopController::class, 'destroy'])->name('eoqrop.destroy');
 
   Route::get('/barang-masuk', [BarangMasukController::class, 'index'])->name('barangMasuk.index');
   Route::get('/get-nama-barang/{kode_barang}', [BarangMasukController::class, 'getNamaBarang']);

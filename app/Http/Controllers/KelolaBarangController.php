@@ -17,7 +17,7 @@ class KelolaBarangController extends Controller
 
         // Jika barang ditemukan, kembalikan response JSON dengan nama barang
         if ($barang) {
-            return response()->json(['nama_barang' => $barang->nama_barang]);
+            return response()->json(['nama_barang' => $barang->jenis_barang]);
         }
 
         // Jika barang tidak ditemukan, kembalikan error
